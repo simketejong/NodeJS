@@ -48,10 +48,19 @@ function DataBase (Name, getal){
                   " average FLOAT," +
                   " max FLOAT," +
                   " date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP )";
+//                 " date datetime NOT NULL DEFAULT NOW() )";
        console.log(sql);
        connect.query(sql, function (err, result) {
            if (err) throw err;
            console.log("Table created");
        });
+       var valueFloat = parseFloat(getal);
+
+//       var sql = "INSERT INTO DATA (name, valueRAW) VALUES ('"+Name+"',"+valueRAW+" )";
+       var sql = "INSERT INTO DATA (name, valueRAW) VALUES ('"+Name+"', '"+valueFloat+"')";
+       connect.query(sql, function (err, result) {
+         if (err) throw err;
+         console.log("1 record inserted");
+       })
     });
 };
