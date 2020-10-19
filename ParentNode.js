@@ -21,6 +21,16 @@ http.createServer(function (req, res) {
   var txt = q.ID + " " + q.value;
   if ( teller == 1 ){
       console.log("ID = " + q.ID + " Value " + q.value);
+      DataBase(q.ID,q.value);
+
   }
   res.end(txt);
 }).listen(23180);
+
+function DataBase (Name, getal){
+    con.query("CREATE DATABASE IF NOT EXISTS "+ Name, function (err, result) {
+  if (err) throw err;
+  console.log("Database "+ Name +" created");
+});
+
+}
