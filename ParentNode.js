@@ -26,17 +26,17 @@ var con = mysql.createConnection({
 
 con.connect(function(err) {
   if (err) throw err;
-  console.log("Connected!");
+//  console.log("Connected!");
 });
 
 http.createServer(function (req, res) {
   teller++;
   res.writeHead(200, {'Content-Type': 'text/html'});
   var q = url.parse(req.url, true).query;
-  console.log(JSON.stringify(q).length);
+//  console.log(JSON.stringify(q).length);
   var txt = q.ID + " " + q.value;
   if ( JSON.stringify(q).length > 2 )  { // No empty requests
-      console.log("ID = " + q.ID + " Value " + q.value);
+//      console.log("ID = " + q.ID + " Value " + q.value);
       DataBase(q.ID,q.value);
   }
   res.end(txt);
@@ -57,7 +57,7 @@ function DataBase (Name, getal){
 
     connect.connect(function(err) {
     if (err) throw err;
-        console.log("Connected Database "+Name);
+//        console.log("Connected Database "+Name);
 //    var sql = "CREATE TABLE IF NOT EXISTS DATA (id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT, value FLOAT)";
         var sql = "CREATE TABLE IF NOT EXISTS DATA (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), valueRaw FLOAT," +
                   " average FLOAT," +
@@ -65,13 +65,13 @@ function DataBase (Name, getal){
                   " date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP )";
        connect.query(sql, function (err, result) {
            if (err) throw err;
-           console.log("Table DATA created");
+//           console.log("Table DATA created");
        });
        var valueFloat = parseFloat(getal);
        var sql = "INSERT INTO DATA (name, valueRAW) VALUES ('"+Name+"', '"+valueFloat+"')";
        connect.query(sql, function (err, result) {
          if (err) throw err;
-         console.log("1 record inserted");
+//         console.log("1 record inserted");
        })
 // Neural Table
 
@@ -93,7 +93,7 @@ function DataBase (Name, getal){
           " harmonic2_15 FLOAT )";
         connect.query(sql, function (err, result) {
         if (err) throw err;
-            console.log("Table NEURAL created");
+//            console.log("Table NEURAL created");
         });
 
         var sql = "SELECT AVG(valueRAW) FROM DATA WHERE date > date_sub(now(), interval 5 second)";
@@ -104,7 +104,7 @@ function DataBase (Name, getal){
 //            console.log(json[0]['AVG(valueRAW)']);
             av5 = json[0]['AVG(valueRAW)']
         })
-        console.log("av5 "+av5);
+    //    console.log("av5 "+av5);
         var sql = "SELECT AVG(valueRAW) FROM DATA WHERE date > date_sub(now(), interval 10 second)";
         connect.query(sql, function (err, result, fields) {
         if (err) throw err;
@@ -231,9 +231,7 @@ function DataBase (Name, getal){
                  " VALUES ('"+getal+"','"+av5+"', '"+av10+"','"+av15+"', '"+max5+"','"+max10+"', '"+max15+"','"+min5+"', '"+min10+"','"+min15+"', '"+harmonic1_5+"','"+harmonic2_5+"', '"+harmonic1_10+"','"+harmonic2_10+"', '"+harmonic1_15+"', '"+harmonic2_15+"')";
        connect.query(sql, function (err, result) {
        if (err) throw err;
-           console.log("1 record inserted");
+//           console.log("1 record inserted");
        })
-
-//////
     });
 };
