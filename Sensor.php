@@ -1,10 +1,10 @@
 <?php
 
 $content1 = file_get_contents("php://input");
-$myfile = fopen("./test.json", "w") or die("Unable to open file!");
-$myAccX = fopen("./AccX.json", "w") or die("Unable to open file!");
-$myAccY = fopen("./AccY.json", "w") or die("Unable to open file!");
-$myAccZ = fopen("./AccZ.json", "w") or die("Unable to open file!");
+$myfile = fopen("../test.json", "w") or die("Unable to open file!");
+$myAccX = fopen("../AccX.json", "w") or die("Unable to open file!");
+$myAccY = fopen("../AccY.json", "w") or die("Unable to open file!");
+$myAccZ = fopen("../AccZ.json", "w") or die("Unable to open file!");
 if(! is_array($decoded)) {
   fwrite($myfile, $content1);
   $obj=json_decode($content1);
