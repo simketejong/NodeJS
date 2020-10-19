@@ -1,6 +1,7 @@
 var mysql = require('mysql');
 var http = require('http');
 var url = require('url');
+var teller=0;
 
 var con = mysql.createConnection({
   host: "localhost",
@@ -14,8 +15,12 @@ con.connect(function(err) {
 });
 
 http.createServer(function (req, res) {
+  teller++;
   res.writeHead(200, {'Content-Type': 'text/html'});
   var q = url.parse(req.url, true).query;
-  var txt = q.year + " " + q.month;
+  var txt = q.ID + " " + q.value;
+  if ( teller == 1 ){
+      console.log("ID = " + q.ID + " Value " + q.value);
+  }
   res.end(txt);
-}).listen(8080);
+}).listen(23180);
