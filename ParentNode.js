@@ -3,21 +3,21 @@ var http = require('http');
 var url = require('url');
 let fft = require("ezfft").fft;
 var teller=0;
-var av5 = 0;
 var av10 = 0;
-var av15 = 0;
-var max5 = 0;
+var av20 = 0;
+var av30 = 0;
 var max10 = 0;
-var max15 = 0;
-var min5 = 0;
+var max20 = 0;
+var max30 = 0;
 var min10 = 0;
-var min15 = 0;
-var harmonic1_5 = 0;
-var harmonic2_5 = 0;
+var min20 = 0;
+var min30 = 0;
 var harmonic1_10 = 0;
 var harmonic2_10 = 0;
-var harmonic1_15 = 0;
-var harmonic2_15 = 0;
+var harmonic1_20 = 0;
+var harmonic2_20 = 0;
+var harmonic1_30 = 0;
+var harmonic2_30 = 0;
 var con = mysql.createConnection({
   host: "localhost",
   user: "simke",
@@ -75,35 +75,26 @@ function DataBase (Name, getal){
 
         var sql = "CREATE TABLE IF NOT EXISTS NEURAL (current FLOAT," +
           " date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP," +
-          " average5 FLOAT," +
           " average10 FLOAT," +
-          " average15 FLOAT," +
-          " max5 FLOAT," +
-          " min5 FLOAT," +
+          " average20 FLOAT," +
+          " average30 FLOAT," +
           " max10 FLOAT," +
           " min10 FLOAT," +
-          " max15 FLOAT," +
-          " min15 FLOAT," +
-          " harmonic1_5 FLOAT," +
-          " harmonic2_5 FLOAT," +
+          " max20 FLOAT," +
+          " min20 FLOAT," +
+          " max30 FLOAT," +
+          " min30 FLOAT," +
           " harmonic1_10 FLOAT," +
           " harmonic2_10 FLOAT," +
-          " harmonic1_15 FLOAT," +
-          " harmonic2_15 FLOAT )";
+          " harmonic1_20 FLOAT," +
+          " harmonic2_20 FLOAT," +
+          " harmonic1_30 FLOAT," +
+          " harmonic2_30 FLOAT )";
         connect.query(sql, function (err, result) {
         if (err) throw err;
 //            console.log("Table NEURAL created");
         });
 
-        var sql = "SELECT AVG(valueRAW) FROM DATA WHERE date > date_sub(now(), interval 5 second)";
-        connect.query(sql, function (err, result, fields) {
-        if (err) throw err;
-            var string=JSON.stringify(result);
-            var json =  JSON.parse(string);
-//            console.log(json[0]['AVG(valueRAW)']);
-            av5 = json[0]['AVG(valueRAW)']
-        })
-    //    console.log("av5 "+av5);
         var sql = "SELECT AVG(valueRAW) FROM DATA WHERE date > date_sub(now(), interval 10 second)";
         connect.query(sql, function (err, result, fields) {
         if (err) throw err;
@@ -112,21 +103,22 @@ function DataBase (Name, getal){
 //            console.log(json[0]['AVG(valueRAW)']);
             av10 = json[0]['AVG(valueRAW)']
         })
-        var sql = "SELECT AVG(valueRAW) FROM DATA WHERE date > date_sub(now(), interval 15 second)";
+    //    console.log("av5 "+av5);
+        var sql = "SELECT AVG(valueRAW) FROM DATA WHERE date > date_sub(now(), interval 20 second)";
         connect.query(sql, function (err, result, fields) {
         if (err) throw err;
             var string=JSON.stringify(result);
             var json =  JSON.parse(string);
 //            console.log(json[0]['AVG(valueRAW)']);
-            av15 = json[0]['AVG(valueRAW)']
+            av20 = json[0]['AVG(valueRAW)']
         })
-        var sql = "SELECT MAX(valueRAW) FROM DATA WHERE date > date_sub(now(), interval 5 second)";
+        var sql = "SELECT AVG(valueRAW) FROM DATA WHERE date > date_sub(now(), interval 30 second)";
         connect.query(sql, function (err, result, fields) {
         if (err) throw err;
             var string=JSON.stringify(result);
             var json =  JSON.parse(string);
 //            console.log(json[0]['AVG(valueRAW)']);
-            max5 = json[0]['MAX(valueRAW)']
+            av30 = json[0]['AVG(valueRAW)']
         })
         var sql = "SELECT MAX(valueRAW) FROM DATA WHERE date > date_sub(now(), interval 10 second)";
         connect.query(sql, function (err, result, fields) {
@@ -136,21 +128,21 @@ function DataBase (Name, getal){
 //            console.log(json[0]['AVG(valueRAW)']);
             max10 = json[0]['MAX(valueRAW)']
         })
-        var sql = "SELECT MAX(valueRAW) FROM DATA WHERE date > date_sub(now(), interval 15 second)";
+        var sql = "SELECT MAX(valueRAW) FROM DATA WHERE date > date_sub(now(), interval 20 second)";
         connect.query(sql, function (err, result, fields) {
         if (err) throw err;
             var string=JSON.stringify(result);
             var json =  JSON.parse(string);
 //            console.log(json[0]['AVG(valueRAW)']);
-            max15 = json[0]['MAX(valueRAW)']
+            max20 = json[0]['MAX(valueRAW)']
         })
-        var sql = "SELECT MIN(valueRAW) FROM DATA WHERE date > date_sub(now(), interval 5 second)";
+        var sql = "SELECT MAX(valueRAW) FROM DATA WHERE date > date_sub(now(), interval 30 second)";
         connect.query(sql, function (err, result, fields) {
         if (err) throw err;
             var string=JSON.stringify(result);
             var json =  JSON.parse(string);
 //            console.log(json[0]['AVG(valueRAW)']);
-            min5 = json[0]['MIN(valueRAW)']
+            max30 = json[0]['MAX(valueRAW)']
         })
         var sql = "SELECT MIN(valueRAW) FROM DATA WHERE date > date_sub(now(), interval 10 second)";
         connect.query(sql, function (err, result, fields) {
@@ -160,35 +152,23 @@ function DataBase (Name, getal){
 //            console.log(json[0]['AVG(valueRAW)']);
             min10 = json[0]['MIN(valueRAW)']
         })
-        var sql = "SELECT MIN(valueRAW) FROM DATA WHERE date > date_sub(now(), interval 15 second)";
+        var sql = "SELECT MIN(valueRAW) FROM DATA WHERE date > date_sub(now(), interval 20 second)";
         connect.query(sql, function (err, result, fields) {
         if (err) throw err;
             var string=JSON.stringify(result);
             var json =  JSON.parse(string);
 //            console.log(json[0]['AVG(valueRAW)']);
-            min15 = json[0]['MIN(valueRAW)']
+            min20 = json[0]['MIN(valueRAW)']
         })
-
-        var sql = "SELECT valueRAW FROM DATA WHERE date > date_sub(now(), interval 5 second)";
+        var sql = "SELECT MIN(valueRAW) FROM DATA WHERE date > date_sub(now(), interval 30 second)";
         connect.query(sql, function (err, result, fields) {
         if (err) throw err;
             var string=JSON.stringify(result);
             var json =  JSON.parse(string);
-            harm = [];
-        for (i = 0; i < result.length; i++) {
-            harm.push(json[i]['valueRAW'])
-        }
-        harmonic1_5=0;
-        harmonic2_5=0;
-        if ( harm.length > 2 ){
-            let data = fft(harm, result.length*10);    //OMG ITS EZ AS F*
-        console.log(data.frequency.amplitude);  //Amplitude axis
-        console.log(data.frequency.phase);      //Phase axis
-        console.log(data.frequency.frequency);  //Frequency axis
-            harmonic1_5=data.frequency.frequency[0];
-            harmonic2_5=data.frequency.frequency[1];
-        }
+//            console.log(json[0]['AVG(valueRAW)']);
+            min30 = json[0]['MIN(valueRAW)']
         })
+
         var sql = "SELECT valueRAW FROM DATA WHERE date > date_sub(now(), interval 10 second)";
         connect.query(sql, function (err, result, fields) {
         if (err) throw err;
@@ -201,12 +181,15 @@ function DataBase (Name, getal){
         harmonic1_10=0;
         harmonic2_10=0;
         if ( harm.length > 2 ){
-            let data = fft(harm, result.length);    //OMG ITS EZ AS F*
+            let data = fft(harm, result.length*10);    //OMG ITS EZ AS F*
+        console.log(data.frequency.amplitude);  //Amplitude axis
+        console.log(data.frequency.phase);      //Phase axis
+        console.log(data.frequency.frequency);  //Frequency axis
             harmonic1_10=data.frequency.frequency[0];
             harmonic2_10=data.frequency.frequency[1];
         }
         })
-        var sql = "SELECT valueRAW FROM DATA WHERE date > date_sub(now(), interval 15 second)";
+        var sql = "SELECT valueRAW FROM DATA WHERE date > date_sub(now(), interval 20 second)";
         connect.query(sql, function (err, result, fields) {
         if (err) throw err;
             var string=JSON.stringify(result);
@@ -215,22 +198,36 @@ function DataBase (Name, getal){
         for (i = 0; i < result.length; i++) {
             harm.push(json[i]['valueRAW'])
         }
-        harmonic1_15=0;
-        harmonic2_15=0;
+        harmonic1_20=0;
+        harmonic2_20=0;
         if ( harm.length > 2 ){
             let data = fft(harm, result.length);    //OMG ITS EZ AS F*
-            harmonic1_15=data.frequency.frequency[0];
-            harmonic2_15=data.frequency.frequency[1];
+            harmonic1_20=data.frequency.frequency[0];
+            harmonic2_20=data.frequency.frequency[1];
+        }
+        })
+        var sql = "SELECT valueRAW FROM DATA WHERE date > date_sub(now(), interval 30 second)";
+        connect.query(sql, function (err, result, fields) {
+        if (err) throw err;
+            var string=JSON.stringify(result);
+            var json =  JSON.parse(string);
+            harm = [];
+        for (i = 0; i < result.length; i++) {
+            harm.push(json[i]['valueRAW'])
+        }
+        harmonic1_30=0;
+        harmonic2_30=0;
+        if ( harm.length > 2 ){
+            let data = fft(harm, result.length);    //OMG ITS EZ AS F*
+            harmonic1_30=data.frequency.frequency[0];
+            harmonic2_30=data.frequency.frequency[1];
         }
         })
 
-//        var sql = "INSERT INTO NEURAL (average5, average10, average15, max5, max10, max15) "+
-//                  " VALUES ('"+av5+"', '"+av10+"','"+av15+"', '"+max5+"','"+max10+"', '"+max15+"')";
-       var sql = "INSERT INTO NEURAL (current, average5, average10, average15, max5, max10, max15, min5, min10, min15, harmonic1_5, harmonic2_5, harmonic1_10, harmonic2_10, harmonic1_15, harmonic2_15 ) "+
-                 " VALUES ('"+getal+"','"+av5+"', '"+av10+"','"+av15+"', '"+max5+"','"+max10+"', '"+max15+"','"+min5+"', '"+min10+"','"+min15+"', '"+harmonic1_5+"','"+harmonic2_5+"', '"+harmonic1_10+"','"+harmonic2_10+"', '"+harmonic1_15+"', '"+harmonic2_15+"')";
+       var sql = "INSERT INTO NEURAL (current, average10, average20, average30, max10, max20, max30, min10, min20, min30, harmonic1_10, harmonic2_10, harmonic1_20, harmonic2_20, harmonic1_30, harmonic2_30 ) "+
+                 " VALUES ('"+getal+"','"+av10+"', '"+av20+"','"+av30+"', '"+max10+"','"+max20+"', '"+max30+"','"+min10+"', '"+min20+"','"+min30+"', '"+harmonic1_10+"','"+harmonic2_10+"', '"+harmonic1_20+"','"+harmonic2_20+"', '"+harmonic1_30+"', '"+harmonic2_30+"')";
        connect.query(sql, function (err, result) {
        if (err) throw err;
-//           console.log("1 record inserted");
        })
     });
 };
