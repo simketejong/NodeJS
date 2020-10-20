@@ -26,7 +26,7 @@ var con = mysql.createConnection({
 
 con.connect(function(err) {
   if (err) throw err;
-//  console.log("Connected!");
+  console.log("Connected!");
 });
 
 http.createServer(function (req, res) {
@@ -45,7 +45,7 @@ http.createServer(function (req, res) {
 function DataBase (Name, getal){
     con.query("CREATE DATABASE IF NOT EXISTS "+ Name, function (err, result) {
         if (err) throw err;
-//        console.log("Database "+ Name +" created");
+        console.log("Database "+ Name +" created");
     })
 
     var connect = mysql.createConnection({
