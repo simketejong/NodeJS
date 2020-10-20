@@ -45,7 +45,7 @@ http.createServer(function (req, res) {
 function DataBase (Name, getal){
     con.query("CREATE DATABASE IF NOT EXISTS "+ Name, function (err, result) {
         if (err) throw err;
-        console.log("Database "+ Name +" created");
+//        console.log("Database "+ Name +" created");
     })
 
     var connect = mysql.createConnection({
@@ -60,8 +60,6 @@ function DataBase (Name, getal){
 //        console.log("Connected Database "+Name);
 //    var sql = "CREATE TABLE IF NOT EXISTS DATA (id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT, value FLOAT)";
         var sql = "CREATE TABLE IF NOT EXISTS DATA (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), valueRaw FLOAT," +
-                  " average FLOAT," +
-                  " max FLOAT," +
                   " date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP )";
        connect.query(sql, function (err, result) {
            if (err) throw err;
@@ -76,6 +74,7 @@ function DataBase (Name, getal){
 // Neural Table
 
         var sql = "CREATE TABLE IF NOT EXISTS NEURAL (current FLOAT," +
+          " date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP," +
           " average5 FLOAT," +
           " average10 FLOAT," +
           " average15 FLOAT," +
@@ -127,7 +126,7 @@ function DataBase (Name, getal){
             var string=JSON.stringify(result);
             var json =  JSON.parse(string);
 //            console.log(json[0]['AVG(valueRAW)']);
-        var max5 = json[0]['MAX(valueRAW)']
+            max5 = json[0]['MAX(valueRAW)']
         })
         var sql = "SELECT MAX(valueRAW) FROM DATA WHERE date > date_sub(now(), interval 10 second)";
         connect.query(sql, function (err, result, fields) {
@@ -151,7 +150,7 @@ function DataBase (Name, getal){
             var string=JSON.stringify(result);
             var json =  JSON.parse(string);
 //            console.log(json[0]['AVG(valueRAW)']);
-            max5 = json[0]['MIN(valueRAW)']
+            min5 = json[0]['MIN(valueRAW)']
         })
         var sql = "SELECT MIN(valueRAW) FROM DATA WHERE date > date_sub(now(), interval 10 second)";
         connect.query(sql, function (err, result, fields) {
@@ -159,7 +158,7 @@ function DataBase (Name, getal){
             var string=JSON.stringify(result);
             var json =  JSON.parse(string);
 //            console.log(json[0]['AVG(valueRAW)']);
-            max10 = json[0]['MIN(valueRAW)']
+            min10 = json[0]['MIN(valueRAW)']
         })
         var sql = "SELECT MIN(valueRAW) FROM DATA WHERE date > date_sub(now(), interval 15 second)";
         connect.query(sql, function (err, result, fields) {
@@ -167,7 +166,7 @@ function DataBase (Name, getal){
             var string=JSON.stringify(result);
             var json =  JSON.parse(string);
 //            console.log(json[0]['AVG(valueRAW)']);
-            max15 = json[0]['MIN(valueRAW)']
+            min15 = json[0]['MIN(valueRAW)']
         })
 
         var sql = "SELECT valueRAW FROM DATA WHERE date > date_sub(now(), interval 5 second)";
@@ -182,10 +181,10 @@ function DataBase (Name, getal){
         harmonic1_5=0;
         harmonic2_5=0;
         if ( harm.length > 2 ){
-            let data = fft(harm, result.length);    //OMG ITS EZ AS F*
-///        console.log(data.frequency.amplitude);  //Amplitude axis
-///        console.log(data.frequency.phase);      //Phase axis
-///        console.log(data.frequency.frequency);  //Frequency axis
+            let data = fft(harm, result.length*10);    //OMG ITS EZ AS F*
+        console.log(data.frequency.amplitude);  //Amplitude axis
+        console.log(data.frequency.phase);      //Phase axis
+        console.log(data.frequency.frequency);  //Frequency axis
             harmonic1_5=data.frequency.frequency[0];
             harmonic2_5=data.frequency.frequency[1];
         }

@@ -22,15 +22,15 @@ if(! is_array($decoded)) {
  fclose($myfile);
 }
 $txt='http://localhost:23180/?ID=AccelX&value='.$AX;
-$txt1='http://localhost:23180/?ID=AccelY&value='.$AY;
-$txt2='http://localhost:23180/?ID=AccelZ&value='.$AZ;
+//$txt1='http://localhost:23180/?ID=AccelY&value='.$AY;
+//$txt2='http://localhost:23180/?ID=AccelZ&value='.$AZ;
 $response = file_get_contents($txt);
-$response = file_get_contents($txt1);
-$response = file_get_contents($txt2);
+//$response = file_get_contents($txt1);
+//$response = file_get_contents($txt2);
 //if(strlen(trim($error)) > 0){
-//echo '{';
-//echo '"error": .$error';
-//echo '}';
+echo '{';
+echo "response:".$txt;
+echo '}';
 //}
 //echo '{';
 //echo '"Freq": 10';
