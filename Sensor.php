@@ -24,9 +24,9 @@ if(! is_array($decoded)) {
 
 $txt='http://localhost:23180/?ID=AccelX&value='.$AX;
 //sleep(2000);
-$txt1='http://localhost:23180/?ID=AccelY&value='.$AY;
+//$txt1='http://localhost:23180/?ID=AccelY&value='.$AY;
 //sleep(2000);
-$txt2='http://localhost:23180/?ID=AccelZ&value='.$AZ;
+//$txt2='http://localhost:23180/?ID=AccelZ&value='.$AZ;
 //$response = file_get_contents($txt);
 //echo '{';
 //echo "response:".$txt;
