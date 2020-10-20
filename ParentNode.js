@@ -18,6 +18,7 @@ var harmonic1_20 = 0;
 var harmonic2_20 = 0;
 var harmonic1_30 = 0;
 var harmonic2_30 = 0;
+
 var con = mysql.createConnection({
   host: "localhost",
   user: "simke",
@@ -33,7 +34,7 @@ http.createServer(function (req, res) {
   teller++;
   res.writeHead(200, {'Content-Type': 'text/html'});
   var q = url.parse(req.url, true).query;
-//  console.log(JSON.stringify(q).length);
+// console.log(JSON.stringify(q).length);
   var txt = q.ID + " " + q.value;
   if ( JSON.stringify(q).length > 2 )  { // No empty requests
 //      console.log("ID = " + q.ID + " Value " + q.value);
@@ -42,10 +43,11 @@ http.createServer(function (req, res) {
   res.end(txt);
 }).listen(23180);
 
+
 function DataBase (Name, getal){
     con.query("CREATE DATABASE IF NOT EXISTS "+ Name, function (err, result) {
         if (err) throw err;
-        console.log("Database "+ Name +" created");
+//        console.log("Database "+ Name +" created");
     })
 
     var connect = mysql.createConnection({
@@ -158,7 +160,7 @@ function DataBase (Name, getal){
             var json =  JSON.parse(string);
             min30 = json[0]['MIN(valueRAW)']
         })
-/*
+
         var sql = "SELECT valueRAW FROM DATA WHERE date > date_sub(now(), interval 10 second)";
         connect.query(sql, function (err, result, fields) {
         if (err) throw err;
@@ -196,7 +198,7 @@ function DataBase (Name, getal){
             harmonic2_20=data.frequency.phase[0];
         }
         })
-*/
+
         var sql = "SELECT valueRAW FROM DATA WHERE date > date_sub(now(), interval 30 second)";
         connect.query(sql, function (err, result, fields) {
         if (err) throw err;
