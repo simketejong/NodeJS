@@ -25,13 +25,13 @@ if(! is_array($decoded)) {
 $txt='http://localhost:23180/?ID=AccelX&value='.$AX;
 $response = file_get_contents($txt);
 //sleep(2000);
-$txt1='http://localhost:23180/?ID=AccelY&value='.$AY;
-$response = file_get_contents($txt1);
-//sleep(2000);
+//$txt1='http://localhost:23180/?ID=AccelY&value='.$AY;
+//$response = file_get_contents($txt1);
+sleep(2000);
 $txt2='http://localhost:23180/?ID=AccelZ&value='.$AZ;
 $response = file_get_contents($txt2);
-echo '{';
-echo "response:".$txt;
-echo '}';
+//echo '{';
+//echo "response:".$txt;
+//echo '}';
 //$conn->close();
 ?>
